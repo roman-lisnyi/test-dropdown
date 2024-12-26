@@ -1,0 +1,118 @@
+@use "base/variables" as vars;
+
+%frame-block {
+  border: 1px solid vars.$border-color;
+  border-radius: 10px;
+}
+
+.dropdown {
+  position: relative;
+  cursor: pointer;
+  padding: 10px 15px;
+  background: #fff;
+  @extend %frame-block;
+
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: calc(100% - 16px);
+
+  &.empty {
+    color: vars.$color-secondary;
+  }
+}
+
+.arrow {
+  transition: transform 0.2s;
+  width: 12px;
+  height: 12px;
+  background: {
+    image: url("/assets/icons/arrow-down.svg");
+    size: contain;
+    repeat: no-repeat;
+    position: center;
+  };
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.dropdown-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 180px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: all .2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:not(.selected):hover {
+      background-color: #fae2e6;
+    }
+
+    &.selected {
+      background-color: #E1BCC2FF;
+    }
+  }
+}
+
+.dropdown-menu {
+  position: relative;
+  padding: 10px 21px 10px 0;
+  background: #fff;
+  box-shadow: 1px 2px 5px 0 rgba(vars.$color-secondary, 0.5);
+  transition: all .2s;
+  opacity: 0;
+  top: 0;
+  @extend %frame-block;
+  &.animated {
+    top: 10px;
+    opacity: 1;
+  }
+  &.no-scroll {
+    padding-right: 0;
+    &:after {
+      content: none;
+    }
+  }
+  &:after {
+    content: "";
+    width: 1px;
+    height: calc(100% - 20px);
+    background-color: #f0f0f5;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1;
+  }
+}
+
+.scrollbar {
+  position: absolute;
+  right: 10px;
+  top: 0;
+  width: 1px;
+  background: #738197;
+  z-index: 2;
+}

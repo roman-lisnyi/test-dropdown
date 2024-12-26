@@ -1,0 +1,24 @@
+<div class="dropdown" #trigger (click)="toggleDropdown()">
+  <div class="dropdown__label">
+    <span class="title" [class]="{ 'empty': !selectedOption() }">{{ selectedOptionLabel() || placeholder }}</span>
+    <span class="arrow" [class.open]="overlayRef()"></span>
+  </div>
+</div>
+
+<ng-template #dropdownTemplate>
+  <div class="dropdown-menu" #dropdownMenu [style.width.px]="triggerWidth()">
+    <div class="scrollbar" #scrollbar></div>
+    <ul class="dropdown-list" #dropdownList >
+
+      @for (option of options; track option) {
+        <li
+          (click)="selectOption(option)"
+          [class.selected]="option.id === selectedOptionId()"
+        >
+          {{ option.label }}
+        </li>
+      }
+    </ul>
+  </div>
+
+</ng-template>
