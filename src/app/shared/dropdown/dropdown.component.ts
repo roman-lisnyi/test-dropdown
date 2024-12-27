@@ -91,6 +91,10 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     }
   }
 
+  ngOnDestroy(): void {
+    this.closeDropdown();
+  }
+
   toggleDropdown(): void {
     if (!this.options?.length) return;
 
@@ -185,10 +189,6 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.closeDropdown();
-  }
-
   menuLoadedCheck(cb: () => void) {
     let elapsed = 0;
     const interval = 50;
@@ -203,5 +203,52 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
         clearInterval(checkInterval);
       }
     }, interval);
+  }
+
+  /**
+   * Accessibility
+   */
+
+  onTriggerKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.toggleDropdown();
+    }
+    if (event.key === 'ArrowDown' && this.overlayRef()) {
+      event.preventDefault();
+      this.focusFirstOption();
+    }
+  }
+
+  focusFirstOption(): void {
+    const options = this.dropdownList.nativeElement.querySelectorAll('li');
+    if (options.length > 0) {
+      (options[0] as HTMLElement).focus();
+    }
+  }
+
+  focusNextOption(event: Event): void {
+    const current = event.target as HTMLElement;
+    const options = Array.from(this.dropdownList.nativeElement.querySelectorAll('li'));
+    const currentIndex = options.indexOf(current);
+    if (currentIndex < options.length - 1) {
+      (options[currentIndex + 1] as HTMLElement).focus();
+    }
+  }
+
+  focusPreviousOption(event: Event): void {
+    const current = event.target as HTMLElement;
+    const options = Array.from(this.dropdownList.nativeElement.querySelectorAll('li'));
+    const currentIndex = options.indexOf(current);
+    if (currentIndex > 0) {
+      (options[currentIndex - 1] as HTMLElement).focus();
+    }
+  }
+
+  escapeClose() {
+    this.closeDropdown();
+    setTimeout(() => {
+      this.trigger.nativeElement.focus();
+    }, 0);
   }
 }
