@@ -125,7 +125,7 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     setTimeout(() => {
       this.animateDropdownMenu();
       this.optionsScroll();
-    })
+    }, 0)
 
     if (this.overlayRef()?.backdropClick) {
       this.overlayRef()?.backdropClick().subscribe(() => this.closeDropdown());
@@ -156,7 +156,7 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     const { scrollHeight, clientHeight, scrollTop } = dropdown;
 
     if (scrollHeight <= clientHeight) {
-      this.dropdownMenu.nativeElement.classList.add('no-scroll');
+      this.dropdownMenu?.nativeElement.classList.add('no-scroll');
       scrollbar.style.height = '0px';
       scrollbar.style.transform = 'translateY(0px)';
       return;
@@ -169,15 +169,15 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
   }
 
   animateDropdownMenu() {
-    this.dropdownMenu.nativeElement.classList.add('animated');
+    this.dropdownMenu?.nativeElement.classList.add('animated');
   }
 
   optionsScroll(destroy = false) {
     if (destroy) {
-      this.dropdownList.nativeElement.removeEventListener('scroll', () => this.updateCustomScrollbar());
+      this.dropdownList?.nativeElement.removeEventListener('scroll', () => this.updateCustomScrollbar());
     } else {
       this.updateCustomScrollbar();
-      this.dropdownList.nativeElement.addEventListener('scroll', () => this.updateCustomScrollbar());
+      this.dropdownList?.nativeElement.addEventListener('scroll', () => this.updateCustomScrollbar());
     }
   }
 
