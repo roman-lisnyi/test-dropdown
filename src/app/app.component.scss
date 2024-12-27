@@ -1,6 +1,9 @@
 
 .options-form {
-  display: grid;
-  grid-template-columns: 300px 300px 300px;
-  grid-column-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  > * {
+    width: 300px;
+  }
 }
