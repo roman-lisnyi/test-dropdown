@@ -244,19 +244,17 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
 
   escapeClose() {
     this.closeDropdown();
-    setTimeout(() => {
-      this.trigger.nativeElement.focus();
-    }, 0);
+    this.focusBack();
   }
 
   keyDownSelectOption(option: IDropdownOption<T> | null) {
     this.selectOption(option);
+    this.focusBack();
+  }
+
+  focusBack() {
     setTimeout(() => {
       this.trigger.nativeElement.focus();
     }, 0);
-  }
-
-  backFocus() {
-
   }
 }
