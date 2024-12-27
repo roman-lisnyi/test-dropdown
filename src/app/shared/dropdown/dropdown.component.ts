@@ -209,15 +209,12 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
    * Accessibility
    */
 
-  onTriggerKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      this.toggleDropdown();
-    }
-    if (event.key === 'ArrowDown' && this.overlayRef()) {
-      event.preventDefault();
+  keyDownOpenMenu(event: Event): void {
+    event.preventDefault();
+    this.toggleDropdown();
+    setTimeout(() => {
       this.focusFirstOption();
-    }
+    }, 0)
   }
 
   focusFirstOption(): void {
@@ -250,5 +247,16 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     setTimeout(() => {
       this.trigger.nativeElement.focus();
     }, 0);
+  }
+
+  keyDownSelectOption(option: IDropdownOption<T> | null) {
+    this.selectOption(option);
+    setTimeout(() => {
+      this.trigger.nativeElement.focus();
+    }, 0);
+  }
+
+  backFocus() {
+
   }
 }

@@ -1,4 +1,4 @@
-<div class="dropdown" #trigger (click)="toggleDropdown()" (keydown)="onTriggerKeyDown($event)" tabindex="0">
+<div class="dropdown" #trigger (click)="toggleDropdown()" (keydown.enter)="keyDownOpenMenu($event)" tabindex="0">
   <div class="dropdown__label">
     <span class="title" [class]="{ 'empty': !selectedOption() }">{{ selectedOptionLabel() || placeholder }}</span>
     <span class="arrow" [class.open]="overlayRef()"></span>
@@ -16,7 +16,7 @@
           (click)="selectOption(null)"
           (keydown.arrowDown)="focusNextOption($event)"
           (keydown.arrowUp)="focusPreviousOption($event)"
-          (keydown.enter)="selectOption(null)"
+          (keydown.enter)="keyDownSelectOption(null)"
         >
           - - -
         </li>
@@ -27,7 +27,7 @@
           (click)="selectOption(option)"
           (keydown.arrowDown)="focusNextOption($event)"
           (keydown.arrowUp)="focusPreviousOption($event)"
-          (keydown.enter)="selectOption(option)"
+          (keydown.enter)="keyDownSelectOption(option)"
           [class.selected]="option.id === selectedOptionId()"
         >
           {{ option.label }}
