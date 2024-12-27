@@ -14,7 +14,7 @@ import {
 import {CommonModule} from '@angular/common';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
 import {TemplatePortal} from '@angular/cdk/portal';
-import {Overlay, OverlayRef} from '@angular/cdk/overlay';
+import {Overlay, OverlayModule, OverlayRef} from '@angular/cdk/overlay';
 import {IDropdownOption} from '../intefaces';
 
 @Component({
@@ -29,15 +29,18 @@ import {IDropdownOption} from '../intefaces';
       multi: true,
     },
   ],
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, OverlayModule, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
   @Input() options: IDropdownOption<T>[] = [];
   @Input() optional = false;
   @Input() placeholder: string = 'Select an option';
+  @Input() set selected(value: IDropdownOption<T> | T | null) {
+    this.writeValue(value);
+  }
   @Input() valueFn: (value: IDropdownOption<T> | null) => IDropdownOption<T> | T | null = (value: IDropdownOption<T> | null) => value?.id || null;
-  @Output() onSelection = new EventEmitter<IDropdownOption<T> | T | null>();
+  @Output() selectedChange = new EventEmitter<IDropdownOption<T> | T | null>();
 
   @ViewChild('trigger') trigger!: ElementRef;
   @ViewChild('dropdownTemplate') dropdownTemplate!: TemplateRef<any>;
@@ -64,14 +67,14 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
   private onTouched = () => {
   };
 
-  writeValue(value: IDropdownOption<T> | T): void {
+  writeValue(value: IDropdownOption<T> | T | null): void {
     this.selectedOption.set(value);
 
     this.defineLabel(value);
   }
 
   defineLabel(value: IDropdownOption<T> | T | null) {
-    const selectedOption = this.options.find((option) => option.id === ((value as IDropdownOption<T>)?.id || value));
+    const selectedOption = this.options.find((option) => option.id === (+(value as IDropdownOption<T>)?.id || value));
     this.selectedOptionLabel.set(selectedOption?.label || null);
   }
 
@@ -153,7 +156,7 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     this.selectedOptionId.set(option ? option.id : null)
     this.selectedOption.set(value);
     this.onChange(value);
-    this.onSelection.emit(value);
+    this.selectedChange.emit(value);
     this.closeDropdown();
   }
 

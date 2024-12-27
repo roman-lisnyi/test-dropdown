@@ -1,13 +1,29 @@
-
 <div class="container">
   <h1>Some test project</h1>
-  <form class="options-form" [formGroup]="form">
+
+  <h2>
+    Simple data binding
+  </h2>
+
+  <div class="options-block">
+    <stp-dropdown
+      [(selected)]="selectedItem"
+      [options]="options"
+    ></stp-dropdown>
+
+    <input [(ngModel)]="selectedItem" type="number" placeholder="Enter value from 1 to 15"/>
+  </div>
+
+  <h2>
+    More complex solution
+  </h2>
+  <form class="options-block" [formGroup]="form">
     <div>
       <p>Emit value</p>
       <stp-dropdown
         [valueFn]="valueFn"
         [options]="options"
-        (onSelection)="optionSelected($event)"
+        (selectedChange)="optionSelected($event)"
       ></stp-dropdown>
     </div>
     <div>

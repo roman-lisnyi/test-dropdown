@@ -1,8 +1,9 @@
 
-.options-form {
+.options-block {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
+  margin-bottom: 30px;
   > * {
     width: 300px;
   }

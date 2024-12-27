@@ -37,6 +37,7 @@
               "includePaths": ["src/styles"]
             },
             "styles": [
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
               "src/styles/main.scss"
             ],
             "scripts": []

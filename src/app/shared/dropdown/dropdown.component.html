@@ -1,6 +1,6 @@
 <div class="dropdown" #trigger (click)="toggleDropdown()" (keydown.enter)="keyDownOpenMenu($event)" tabindex="0">
   <div class="dropdown__label">
-    <span class="title" [class]="{ 'empty': !selectedOption() }">{{ selectedOptionLabel() || placeholder }}</span>
+    <span class="title" [class]="{ 'empty': !selectedOptionLabel() }">{{ selectedOptionLabel() || placeholder }}</span>
     <span class="arrow" [class.open]="overlayRef()"></span>
   </div>
 </div>

@@ -1,17 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {DropdownComponent} from './shared';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {IDropdownOption} from './shared/intefaces';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, DropdownComponent, ReactiveFormsModule],
+  imports: [RouterOutlet, DropdownComponent, ReactiveFormsModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  selectedItem = null;
+
   form = new FormGroup({
     control1: new FormControl(null),
     control2: new FormControl(2),
