@@ -19,9 +19,17 @@
       ></stp-dropdown>
     </div>
     <div>
-      <p>5 items and scroll is not rendered</p>
+      <p>With optional value</p>
       <stp-dropdown
         formControlName="control2"
+        [optional]="true"
+        [options]="options"
+      ></stp-dropdown>
+    </div>
+    <div>
+      <p>5 items and scroll is not rendered</p>
+      <stp-dropdown
+        formControlName="control3"
         [options]="options5"
       ></stp-dropdown>
     </div>

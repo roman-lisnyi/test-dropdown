@@ -5,7 +5,9 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Output, signal, TemplateRef,
+  Output,
+  signal,
+  TemplateRef,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -32,9 +34,10 @@ import {IDropdownOption} from '../intefaces';
 })
 export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
   @Input() options: IDropdownOption<T>[] = [];
+  @Input() optional = false;
   @Input() placeholder: string = 'Select an option';
-  @Input() valueFn: (value: IDropdownOption<T>) => IDropdownOption<T> | T = (value: IDropdownOption<T>) => value.id;
-  @Output() onSelection = new EventEmitter<IDropdownOption<T> | T>();
+  @Input() valueFn: (value: IDropdownOption<T> | null) => IDropdownOption<T> | T | null = (value: IDropdownOption<T> | null) => value?.id || null;
+  @Output() onSelection = new EventEmitter<IDropdownOption<T> | T | null>();
 
   @ViewChild('trigger') trigger!: ElementRef;
   @ViewChild('dropdownTemplate') dropdownTemplate!: TemplateRef<any>;
@@ -48,14 +51,15 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
   triggerWidth = signal<number>(0);
   overlayRef = signal<OverlayRef | null>(null);
 
-  constructor(private overlay: Overlay, private viewContainerRef: ViewContainerRef) {
+  constructor(private overlay: Overlay,
+              private viewContainerRef: ViewContainerRef) {
     effect(() => {
       const selected = this.selectedOption();
       this.defineLabel(selected);
     }, {allowSignalWrites: true});
   }
 
-  private onChange = (value: IDropdownOption<T> | T) => {
+  private onChange = (value: IDropdownOption<T> | T | null) => {
   };
   private onTouched = () => {
   };
@@ -140,9 +144,9 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  selectOption(option: IDropdownOption<T>): void {
+  selectOption(option: IDropdownOption<T> | null): void {
     const value = this.valueFn(option);
-    this.selectedOptionId.set(option.id)
+    this.selectedOptionId.set(option ? option.id : null)
     this.selectedOption.set(value);
     this.onChange(value);
     this.onSelection.emit(value);
@@ -153,7 +157,7 @@ export class DropdownComponent<T> implements ControlValueAccessor, OnDestroy {
     const dropdown = this.dropdownList.nativeElement;
     const scrollbar = this.scrollbar.nativeElement;
 
-    const { scrollHeight, clientHeight, scrollTop } = dropdown;
+    const {scrollHeight, clientHeight, scrollTop} = dropdown;
 
     if (scrollHeight <= clientHeight) {
       this.dropdownMenu.nativeElement.classList.add('no-scroll');

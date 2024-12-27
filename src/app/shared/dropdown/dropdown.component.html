@@ -9,7 +9,13 @@
   <div class="dropdown-menu" #dropdownMenu [style.width.px]="triggerWidth()">
     <div class="scrollbar" #scrollbar></div>
     <ul class="dropdown-list" #dropdownList >
-
+      @if (optional) {
+        <li
+          (click)="selectOption(null)"
+        >
+          - - -
+        </li>
+      }
       @for (option of options; track option) {
         <li
           (click)="selectOption(option)"

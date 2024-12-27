@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {DropdownComponent} from './shared';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {IDropdownOption} from './shared/intefaces';
 
 @Component({
@@ -13,8 +13,9 @@ import {IDropdownOption} from './shared/intefaces';
 })
 export class AppComponent implements OnInit {
   form = new FormGroup({
-    control1: new FormControl(null, [Validators.required]),
-    control2: new FormControl(2, [Validators.required]),
+    control1: new FormControl(null),
+    control2: new FormControl(2),
+    control3: new FormControl(null),
   })
   options: IDropdownOption[] = Array.from({length: 15}, (_, i) => i + 1).map(id => ({
     id,
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
     label: `Label ${id}`,
   }))
 
-  valueFn = (option: IDropdownOption) => option;
+  valueFn = (option: IDropdownOption | null) => option;
 
   ngOnInit() {
     this.listenForm();
